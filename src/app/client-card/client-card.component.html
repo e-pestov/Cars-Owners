@@ -1,0 +1,52 @@
+<div class="wrap">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="user">
+      <div class="itemUser">
+        <label><strong>Фамилия</strong></label>
+        <input type="text" class="border" formControlName="surName">
+      </div>
+      <div class="itemUser">
+        <label><strong>Имя</strong></label>
+        <input type="text" class="border" formControlName="firstName">
+      </div>
+      <div class="itemUser">
+        <label><strong>Отчество</strong></label>
+        <input type="text" class="border" formControlName="patronymic">
+      </div>
+    </div>
+    <h2>Автомобили</h2>
+    <table class="table table-borderless">
+      <thead>
+      <tr>
+        <th>Номер</th>
+        <th>Марка</th>
+        <th>Модель</th>
+        <th>Год</th>
+      </tr>
+      </thead>
+    </table>
+    <div formArrayName="car">
+      <div *ngFor="let itemCar of getFormControls()['controls']; let i = index" formGroupName="{{i}}">
+        <input type="text" class="border" formControlName="number">
+        <input type="text" class="border" formControlName="brand">
+        <input type="text" class="border" formControlName="model">
+        <input type="text" class="border" formControlName="year">
+        <button class="del btn btn-danger" (click)="removeCar(i)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        </svg></button>
+      </div>
+    </div>
+  </form>
+
+  <div class="block-buttons">
+    <button type="button" class="added btn btn-primary" (click)="addCar()"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" width="16" height="16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="add-svg svg-inline--fa fa-plus fa-w-14 fa-2x"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" class=""></path></svg>  Добавить автомобиль</button>
+    <button type="submit" class="save btn btn-primary" (click)="submit()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Сохранить</button>
+    <button type="button" class="back btn btn-secondary"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+      <path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+      <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+    </svg> Назад</button>
+  </div>
+</div>
+
