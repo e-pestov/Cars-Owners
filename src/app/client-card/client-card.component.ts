@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ICarOwnersServiceService} from "../services/icar-owners-service.service";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ICarOwnersService} from "../services/icar-owners.service";
 import {IPerson} from "../../interfaces/IPerson";
 import {ActivatedRoute} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
@@ -20,7 +20,7 @@ export class ClientCardComponent implements OnInit, OnDestroy {
   private personId: number | undefined;
   private unsubscribe$: Subject<any> = new Subject<any>();
 
-  constructor(private iCarsOwnersService: ICarOwnersServiceService, private fb: FormBuilder, private activeRouter: ActivatedRoute) {
+  constructor(private iCarsOwnersService: ICarOwnersService, private fb: FormBuilder, private activeRouter: ActivatedRoute) {
     if (this.activeRouter.snapshot.params['id']) {
       this.personId = +this.activeRouter.snapshot.params['id'];
     }
@@ -50,28 +50,28 @@ export class ClientCardComponent implements OnInit, OnDestroy {
       this.iCarsOwnersService.getPersonId(this.activeRouter.snapshot.params['id'])
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((res: IPerson) => {
-        this.person = res;
+          this.person = res;
 
-        this.form.patchValue({
-          'surName': this.person.surName,
-          'firstName': this.person.firstName,
-          'patronymic': this.person.patronymic,
-        })
-        if (!this.person?.car && !this.person.car?.length) {
-          this.addCar()
-          return
-        }
-
-        this.person.car.forEach(item => {
-          const car = this.fb.group({
-            "number": [item.number, [Validators.required]],
-            "brand": [item.brand, [Validators.required]],
-            "model": [item.model, [Validators.required]],
-            "year": [item.year, [Validators.required]]
+          this.form.patchValue({
+            'surName': this.person.surName,
+            'firstName': this.person.firstName,
+            'patronymic': this.person.patronymic,
           })
-          this.getFormControls().push(car)
+          if (!this.person?.car && !this.person.car?.length) {
+            this.addCar()
+            return
+          }
+
+          this.person.car.forEach(item => {
+            const car = this.fb.group({
+              "number": [item.number, [Validators.required]],
+              "brand": [item.brand, [Validators.required]],
+              "model": [item.model, [Validators.required]],
+              "year": [item.year, [Validators.required]]
+            })
+            this.getFormControls().push(car)
+          })
         })
-      })
       return;
     }
     this.addCar()

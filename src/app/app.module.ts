@@ -7,7 +7,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { ClientCardComponent } from './client-card/client-card.component';
-import {ICarOwnersServiceService} from "./services/icar-owners-service.service";
+import {ICarOwnersService} from "./services/icar-owners.service";
 import {CommonModule} from "@angular/common";
 
 
@@ -32,7 +32,7 @@ const appRoutes: Routes =[
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ICarOwnersServiceService],
+  providers: [ICarOwnersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@ import {IPerson} from "../../interfaces/IPerson";
 @Injectable({
   providedIn: 'root'
 })
-export class ICarOwnersServiceService {
+export class ICarOwnersService {
   server: string = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IPerson} from "../../interfaces/IPerson";
-import {ICarOwnersServiceService} from "../services/icar-owners-service.service";
+import {ICarOwnersService} from "../services/icar-owners.service";
 import {Router} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
 
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private unsubscribe$: Subject<any> = new Subject<any>();
 
-  constructor(private iCarsOwnersService: ICarOwnersServiceService, private router: Router) {
+  constructor(private iCarsOwnersService: ICarOwnersService, private router: Router) {
   }
 
   ngOnInit() {
