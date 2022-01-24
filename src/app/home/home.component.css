@@ -1,14 +1,31 @@
+h1 {
+  margin: 20px 80px;
 
-h1{
-  margin: 20px auto;
-  text-align: center;
 }
 
-.block-buttons{
-  margin-left: 52px;
+.block-buttons {
+  margin-left: 83px;
 }
 
-table{
+button {
+  margin-right: 10px;
+}
+
+button:nth-child(2) {
+  margin-left: 40px;
+}
+img{
+  margin-bottom: 3px;
+}
+table {
   width: 1200px;
   margin: 10px auto;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.mark-item {
+  background-color: #98e546;
 }

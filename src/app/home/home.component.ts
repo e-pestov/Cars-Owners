@@ -1,21 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import {IPersons} from "../../interfaces/IPersons";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {IPerson} from "../../interfaces/IPerson";
 import {ICarOwnersServiceService} from "../services/icar-owners-service.service";
+import {Router} from "@angular/router";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
+  public persons: IPerson[] = [];
+  public person: IPerson[] = [];
+  public selectId: any;
 
+  private unsubscribe$: Subject<any> = new Subject<any>();
 
-  public persons: IPersons[] = [];
-  constructor(private iCarsOwnersService: ICarOwnersServiceService ) {}
+  constructor(private iCarsOwnersService: ICarOwnersServiceService, private router: Router) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.iCarsOwnersService
-      .getOwners().subscribe((res)=>this.persons=res)
+      .getOwners()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => this.persons = res)
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
+  }
+
+  selectItem(id: number) {
+    this.selectId = id;
+  }
+
+  viewUser(id: number) {
+    this.router.navigate([`/view/${id}`]);
+  }
+
+  delete(id: number) {
+    this.iCarsOwnersService.deleteOwner(id)
+      .subscribe((res) => this.persons = this.persons.filter(item => item.id !== id));
   }
 }

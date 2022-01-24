@@ -1,65 +1,109 @@
-import {Component, OnInit} from '@angular/core';
-import {ICar} from "../../interfaces/ICar";
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ICarOwnersServiceService} from "../services/icar-owners-service.service";
-import {IPersons} from "../../interfaces/IPersons";
+import {IPerson} from "../../interfaces/IPerson";
+import {ActivatedRoute} from "@angular/router";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-client-card',
   templateUrl: './client-card.component.html',
   styleUrls: ['./client-card.component.css']
 })
-export class ClientCardComponent implements OnInit {
-  public carsData: ICar[] = [];
+export class ClientCardComponent implements OnInit, OnDestroy {
+
+
   public form: FormGroup = new FormGroup({});
-  public person: IPersons[] = [];
-  public car: FormArray = new FormArray([]);
-  public newCar: boolean = false;
+  public person: IPerson | null = null;
+  public newCar: FormGroup = new FormGroup({});
 
-  constructor(private iCarsOwnersService: ICarOwnersServiceService) {
+  private personId: number | undefined;
+  private unsubscribe$: Subject<any> = new Subject<any>();
 
+  constructor(private iCarsOwnersService: ICarOwnersServiceService, private fb: FormBuilder, private activeRouter: ActivatedRoute) {
+    if (this.activeRouter.snapshot.params['id']) {
+      this.personId = +this.activeRouter.snapshot.params['id'];
+    }
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      "surName": new FormControl(''),
-      "firstName": new FormControl(''),
-      "patronymic": new FormControl(''),
-      car: new FormArray([
-
-      ])
-  });
-
-
-    this.iCarsOwnersService.getOwners().subscribe((res) => this.person = res);
-    this.form.valueChanges.subscribe((value) => this.person = value);
-    this.addCar();
+    this.initForm();
   }
 
-  addCar() {
-   const newCar = new FormGroup({
-     "number": new FormControl(''),
-     "brand": new FormControl(''),
-     "model": new FormControl(''),
-     "year": new FormControl('')
-   });
-    (this.form.controls['car'] as FormArray).push(newCar);
-
+  ngOnDestroy() {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
   }
 
-
-  getFormControls(): FormArray {
-    return  <FormArray> this.form.controls['car'];
+  private initForm() {
+    this.form = this.fb.group({
+      "surName": ["", [Validators.required]],
+      "firstName": ["", [Validators.required]],
+      "patronymic": ["", [Validators.required]],
+      "car": this.fb.array([])
+    });
+    this.mappingForm();
   }
 
-  submit() {
-    console.log(this.form)
-    this.iCarsOwnersService.postOwners(this.person).subscribe();
+  private mappingForm() {
+    if (this.personId) {
+      this.iCarsOwnersService.getPersonId(this.activeRouter.snapshot.params['id'])
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((res: IPerson) => {
+        this.person = res;
+
+        this.form.patchValue({
+          'surName': this.person.surName,
+          'firstName': this.person.firstName,
+          'patronymic': this.person.patronymic,
+        })
+        if (!this.person?.car && !this.person.car?.length) {
+          this.addCar()
+          return
+        }
+
+        this.person.car.forEach(item => {
+          const car = this.fb.group({
+            "number": [item.number, [Validators.required]],
+            "brand": [item.brand, [Validators.required]],
+            "model": [item.model, [Validators.required]],
+            "year": [item.year, [Validators.required]]
+          })
+          this.getFormControls().push(car)
+        })
+      })
+      return;
+    }
+    this.addCar()
   }
 
-  removeCar(i: any) {
-    console.log(i);
-      (this.form.controls['car'] as FormArray).removeAt(i);
+  public addCar() {
+    const newCar = this.fb.group({
+      "number": (''),
+      "brand": (''),
+      "model": (''),
+      "year": ('')
+    });
+    this.getFormControls().push(newCar);
+  }
 
+  public getFormControls(): FormArray {
+    return <FormArray>this.form.controls['car'];
+  }
+
+  public submit() {
+    if (this.personId) {
+      this.iCarsOwnersService.putOwner({...this.form.value, id: this.personId})
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe();
+      return;
+    }
+    this.iCarsOwnersService.postOwner(this.form.value)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe();
+  }
+
+  public removeCar(i: any) {
+    (this.form.controls['car'] as FormArray).removeAt(i);
   }
 }

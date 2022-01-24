@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {IPersons} from "../../interfaces/IPersons";
-import {ICar} from "../../interfaces/ICar";
+import {IPerson} from "../../interfaces/IPerson";
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +12,24 @@ export class ICarOwnersServiceService {
   constructor(private http: HttpClient) {
   }
 
-  getOwners(): Observable<IPersons[]> {
-    return this.http.get<IPersons[]>(`${this.server}/persons`)
+  getOwners(): Observable<IPerson[]> {
+    return this.http.get<IPerson[]>(`${this.server}/persons`)
   }
 
-  getCarsData(): Observable<ICar[]> {
-    return this.http.get<ICar[]>(`${this.server}/carData`)
+  getPersonId(id: number) {
+    return this.http.get<IPerson>(`${this.server}/persons/${id}`);
   }
 
-  postOwners(person: IPersons[]) {
+  putOwner(person: IPerson) {
+    return this.http.put(`${this.server}/persons/${person.id}`, person);
+  }
+
+  postOwner(person: IPerson){
     return this.http.post(`${this.server}/persons`, person);
   }
+
+  deleteOwner(id: number){
+   return this.http.delete(`${this.server}/persons/${id}`);
+  }
 }
+

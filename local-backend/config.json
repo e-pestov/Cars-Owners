@@ -1,28 +1,38 @@
 {
   "persons": [
     {
-      "surName": "Иванов",
-      "firstName": "Иван",
-      "patronymic": "Иванович",
+      "surName": "Петрова ",
+      "firstName": "Наталья",
+      "patronymic": "Игоревна",
+      "car": [
+        {
+          "number": "AX2121",
+          "brand": "Hyndai",
+          "model": "Accent",
+          "year": "2009"
+        },
+        {
+          "number": "BC7286AE",
+          "brand": "Ferrari",
+          "model": "LaFerrari",
+          "year": "2020"
+        }
+      ],
       "id": 1
     },
     {
-      "surName": "Петрова",
-      "firstName": "Наталия",
-      "patronymic": "Игоревна",
+      "surName": "Иванов ",
+      "firstName": "Иван",
+      "patronymic": "Иванович",
+      "car": [
+        {
+          "number": "ФГ2345ЛО",
+          "brand": "Авто",
+          "model": "Седан",
+          "year": "2000"
+        }
+      ],
       "id": 2
-    },
-    {
-      "surName": "Антонов",
-      "firstName": "Алексей",
-      "patronymic": "Сергеевич",
-      "id": 3
-    },
-    {
-      "surName": "Васечкин",
-      "firstName": "Василий",
-      "patronymic": "Васильевич",
-      "id": 5
     }
   ]
 }

@@ -13,7 +13,8 @@ import {CommonModule} from "@angular/common";
 
 const appRoutes: Routes =[
   {path: '', component: HomeComponent},
-  {path: 'view', component: ClientCardComponent}
+  {path: 'view', component: ClientCardComponent},
+  {path: 'view/:id', component: ClientCardComponent}
 ]
 
 @NgModule({

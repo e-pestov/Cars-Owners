@@ -32,6 +32,7 @@ input{
   height: 40px;
   padding: 0;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 .added{
   width: 220px;
@@ -55,6 +56,9 @@ input{
 table{
   width: 725px;
   margin: 0;
+}
+table th{
+  padding: 12px 0;
 }
 .block-buttons{
   width: 220px;

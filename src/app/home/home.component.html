@@ -1,11 +1,19 @@
-<h1>Cars Owners Application</h1>
+<h1>Владельцы автомобилей</h1>
 <div class="block-buttons">
-  <button>Добавить</button>
-  <button [routerLink]="'view'">Просмотр</button>
-  <button>Редактировать</button>
-  <button>Удалить</button>
+  <button [routerLink]="'view'">
+    <img src="../../assets/images/btn-add-car-black.svg" alt="add"> Добавить
+  </button>
+  <button (click)="viewUser(selectId)" [disabled]="!selectId">
+    <img src="../../assets/images/btn-view.svg" alt="view"> Просмотр
+  </button>
+  <button (click)="viewUser(selectId)" [disabled]="!selectId">
+  <img src="../../assets/images/btn-edit.svg"> Редактировать
+  </button>
+  <button (click)="delete(selectId)" [disabled]="!selectId">
+    <img src="../../assets/images/btn-remove-car-black.svg"> Удалить
+  </button>
 </div>
-<table class="table table-striped table-bordered">
+<table class="table table-bordered">
   <thead>
   <tr>
     <th>Фамиля</th>
@@ -15,11 +23,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let item of persons" [id]="item.id">
+  <tr [class.mark-item]="selectId === item.id" *ngFor="let item of persons" [id]="item.id" (click)="selectItem(item.id)">
     <td>{{item.surName}}</td>
     <td>{{item.firstName}}</td>
     <td>{{item.patronymic}}</td>
-    <td>{{item.cars}}</td>
+    <td>{{item.car?.length ? item.car?.length : ''}}</td>
   </tr>
   </tbody>
 </table>
