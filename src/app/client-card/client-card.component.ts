@@ -4,7 +4,6 @@ import {ICarOwnersService} from "../services/icar-owners.service";
 import {IPerson} from "../../interfaces/IPerson";
 import {ActivatedRoute} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
-import {invalid} from "@angular/compiler/src/render3/view/util";
 
 @Component({
   selector: 'app-client-card',
@@ -94,7 +93,7 @@ export class ClientCardComponent implements OnInit, OnDestroy {
         let itemNumber = '';
         carNumber.forEach(item => { itemNumber =  item
           if (this.newCar.value.number === itemNumber){
-            this.newCar.value.number = invalid;
+            this.newCar.value.number = 0;
           }
           return;
         })
