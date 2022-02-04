@@ -24,7 +24,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.iCarsOwnersService
       .getOwners()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res) => this.persons = res)
+      .subscribe((res) => this.persons = res);
+    console.log(this.persons);
+    this.numberCar();
   }
 
   ngOnDestroy() {
@@ -43,5 +45,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   delete(id: number) {
     this.iCarsOwnersService.deleteOwner(id)
       .subscribe((res) => this.persons = this.persons.filter(item => item.id !== id));
+  }
+  private numberCar() {
+    this.iCarsOwnersService.getOwners()
+      .subscribe((res: IPerson[])=>{
+        this.persons = this.persons.filter(item => item.car);
+
+      });
+    console.log(this.persons);
   }
 }

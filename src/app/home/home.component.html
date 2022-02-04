@@ -1,33 +1,36 @@
-<h1>Владельцы автомобилей</h1>
-<div class="block-buttons">
-  <button [routerLink]="'view'">
-    <img src="../../assets/images/btn-add-car-black.svg" alt="add"> Добавить
-  </button>
-  <button (click)="viewUser(selectId)" [disabled]="!selectId">
-    <img src="../../assets/images/btn-view.svg" alt="view"> Просмотр
-  </button>
-  <button (click)="viewUser(selectId)" [disabled]="!selectId">
-  <img src="../../assets/images/btn-edit.svg"> Редактировать
-  </button>
-  <button (click)="delete(selectId)" [disabled]="!selectId">
-    <img src="../../assets/images/btn-remove-car-black.svg"> Удалить
-  </button>
+<div class="wrapper">
+  <h1>Владельцы автомобилей</h1>
+  <div class="block-buttons">
+    <button [routerLink]="'view'" class="btn btn-primary">
+      <img src="../../assets/images/btn-add-car.svg" alt="add"> Добавить
+    </button>
+    <button (click)="viewUser(selectId)" [disabled]="!selectId" class="btn btn-info">
+      <img src="../../assets/images/btn-view.svg" alt="view"> Просмотр
+    </button>
+    <button (click)="viewUser(selectId)" [disabled]="!selectId" class="btn btn-info">
+      <img src="../../assets/images/btn-edit.svg"> Редактировать
+    </button>
+    <button (click)="delete(selectId)" [disabled]="!selectId" class="btn btn-danger">
+      <img src="../../assets/images/btn-remove-car.svg"> Удалить
+    </button>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Фамиля</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Кол-во автомобилей</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr [class.mark-item]="selectId === item.id" *ngFor="let item of persons" [id]="item.id"
+        (click)="selectItem(item.id)">
+      <td>{{item.surName}}</td>
+      <td>{{item.firstName}}</td>
+      <td>{{item.patronymic}}</td>
+      <td>{{item.car?.length ? item.car?.length : ''}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
-<table class="table table-bordered">
-  <thead>
-  <tr>
-    <th>Фамиля</th>
-    <th>Имя</th>
-    <th>Отчество</th>
-    <th>Кол-во автомобилей</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr [class.mark-item]="selectId === item.id" *ngFor="let item of persons" [id]="item.id" (click)="selectItem(item.id)">
-    <td>{{item.surName}}</td>
-    <td>{{item.firstName}}</td>
-    <td>{{item.patronymic}}</td>
-    <td>{{item.car?.length ? item.car?.length : ''}}</td>
-  </tr>
-  </tbody>
-</table>

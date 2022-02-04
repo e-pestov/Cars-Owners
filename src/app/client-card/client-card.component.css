@@ -1,6 +1,11 @@
 
 .wrap{
-  margin: 50px 200px;
+  padding: 50px 150px;
+
+}
+h2{
+  margin: 30px 280px;
+
 }
 .user{
   display: flex;
@@ -13,19 +18,28 @@
   width: 270px;
   margin: 5px 0;
 }
+.item-name{
+  margin-left: 10px;
+}
+.item-name-small{
+  margin-left: 58px;
+}
 label{
-  margin: 5px -10px;
+  margin: 5px 0;
   padding-bottom: 12px;
+  font-size: 20px;
 }
 input{
   outline: none;
   border-radius: 4px;
   margin-right: 10px;
   margin-bottom: 10px;
+  padding-left: 10px;
   vertical-align: middle;
   height: 40px;
   font-size: 21px;
   width: 186px;
+  border: 1px solid #dee2e6;
 }
 .del{
   width: 40px;
@@ -36,13 +50,13 @@ input{
 }
 .added{
   width: 220px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .add-svg{
   margin-bottom: 3px;
 }
 .save{
-  margin-right: 5px;
+  margin-right: 10px;
 }
 .feather{
   margin-bottom: 5px;
@@ -61,6 +75,9 @@ table th{
   padding: 12px 0;
 }
 .block-buttons{
-  width: 220px;
+  width: 230px;
   margin-top: 20px;
+}
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
 }

@@ -3,15 +3,15 @@
     <div class="user">
       <div class="itemUser">
         <label><strong>Фамилия</strong></label>
-        <input type="text" class="border" formControlName="surName">
+        <input type="text" class="item-name" formControlName="surName" pattern="[a-zA-Zа-яА-Я-]*">
       </div>
       <div class="itemUser">
         <label><strong>Имя</strong></label>
-        <input type="text" class="border" formControlName="firstName">
+        <input type="text" class="item-name-small" formControlName="firstName" pattern="[a-zA-Zа-яА-Я-]*">
       </div>
       <div class="itemUser">
         <label><strong>Отчество</strong></label>
-        <input type="text" class="border" formControlName="patronymic">
+        <input type="text" class="item-name" formControlName="patronymic" pattern="[a-zA-Zа-яА-Я-]*">
       </div>
     </div>
     <h2>Автомобили</h2>
@@ -27,10 +27,10 @@
     </table>
     <div formArrayName="car">
       <div *ngFor="let itemCar of getFormControls()['controls']; let i = index" formGroupName="{{i}}">
-        <input type="text" class="border" formControlName="number">
-        <input type="text" class="border" formControlName="brand">
-        <input type="text" class="border" formControlName="model">
-        <input type="text" class="border" formControlName="year">
+        <input type="text"  formControlName="number" maxlength="8" required pattern="[A-ZА-Я-][A-ZА-Я-][0-9-][0-9-][0-9-][0-9-][A-ZА-Я-][A-ZА-Я-]">
+        <input type="text"  formControlName="brand" required pattern="[A-Za-zА-Яа-я]*">
+        <input type="text"  formControlName="model" required pattern="[A-Za-zА-Яа-я0-9]*">
+        <input type="text" maxlength="4" minlength="4" formControlName="year" required pattern="^(19|20)[0-9]{2}">
         <button class="del btn btn-danger"
                 (click)="removeCar(i)"
                 [disabled]="getFormControls().length <=1">

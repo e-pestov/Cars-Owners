@@ -4,6 +4,7 @@ import {ICarOwnersService} from "../services/icar-owners.service";
 import {IPerson} from "../../interfaces/IPerson";
 import {ActivatedRoute} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
+import {invalid} from "@angular/compiler/src/render3/view/util";
 
 @Component({
   selector: 'app-client-card',
@@ -16,9 +17,12 @@ export class ClientCardComponent implements OnInit, OnDestroy {
   public form: FormGroup = new FormGroup({});
   public person: IPerson | null = null;
   public newCar: FormGroup = new FormGroup({});
+  public persons: IPerson[] = [];
 
-  private personId: number | undefined;
+  public personId: number | undefined;
   private unsubscribe$: Subject<any> = new Subject<any>();
+  public car: string | null = null;
+
 
   constructor(private iCarsOwnersService: ICarOwnersService, private fb: FormBuilder, private activeRouter: ActivatedRoute) {
     if (this.activeRouter.snapshot.params['id']) {
@@ -28,6 +32,7 @@ export class ClientCardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.numberCar();
   }
 
   ngOnDestroy() {
@@ -37,9 +42,9 @@ export class ClientCardComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.form = this.fb.group({
-      "surName": ["", [Validators.required]],
-      "firstName": ["", [Validators.required]],
-      "patronymic": ["", [Validators.required]],
+      "surName": ["", [Validators.required, Validators.pattern('[a-zA-Zа-яА-Я-]*')]],
+      "firstName": ["", [Validators.required, Validators.pattern('[a-zA-Zа-яА-Я-]*')]],
+      "patronymic": ["", [Validators.required, Validators.pattern('[a-zA-Zа-яА-Я-]*')]],
       "car": this.fb.array([])
     });
     this.mappingForm();
@@ -57,17 +62,17 @@ export class ClientCardComponent implements OnInit, OnDestroy {
             'firstName': this.person.firstName,
             'patronymic': this.person.patronymic,
           })
-          if (!this.person?.car && !this.person.car?.length) {
+          if (!this.person?.car) {
             this.addCar()
-            return
+            return;
           }
 
           this.person.car.forEach(item => {
             const car = this.fb.group({
-              "number": [item.number, [Validators.required]],
-              "brand": [item.brand, [Validators.required]],
-              "model": [item.model, [Validators.required]],
-              "year": [item.year, [Validators.required]]
+              "number": [item.number, [Validators.required, Validators.pattern('[A-ZА-Я-][A-ZА-Я-][0-9-][0-9-][0-9-][0-9-][A-ZА-Я-][A-ZА-Я-]'), Validators.maxLength(8)]],
+              "brand": [item.brand, [Validators.required, Validators.pattern('[A-Za-zА-Яа-я]*')]],
+              "model": [item.model, [Validators.required, Validators.pattern('[A-Za-zА-Яа-я0-9]*')]],
+              "year": [item.year, [Validators.required, Validators.maxLength(4), Validators.minLength(4), Validators.pattern('^(19|20)[0-9]{2}')]]
             })
             this.getFormControls().push(car)
           })
@@ -77,21 +82,49 @@ export class ClientCardComponent implements OnInit, OnDestroy {
     this.addCar()
   }
 
+  private numberCar() {
+    this.iCarsOwnersService.getOwners()
+      .subscribe((res) => {
+        this.persons = res;
+        console.log(this.persons);
+        let cars = this.persons.flatMap(item => item.car)
+        console.log(cars);
+        let carNumber = cars.map(item => item.number)
+        console.log(carNumber)
+        let itemNumber = '';
+        carNumber.forEach(item => { itemNumber =  item
+          if (this.newCar.value.number === itemNumber){
+            this.newCar.value.number = invalid;
+          }
+          return;
+        })
+      });
+  }
+
   public addCar() {
     const newCar = this.fb.group({
-      "number": (''),
-      "brand": (''),
-      "model": (''),
-      "year": ('')
+      "number": ['', [Validators.required, Validators.pattern('[A-ZА-Я-][A-ZА-Я-][0-9-][0-9-][0-9-][0-9-][A-ZА-Я-][A-ZА-Я-]'), Validators.maxLength(8)]],
+      "brand": ['', [Validators.required, Validators.pattern('[A-Za-zА-Яа-я]*')]],
+      "model": ['', [Validators.required, Validators.pattern('[A-Za-zА-Яа-я0-9]*')]],
+      "year": ['', [Validators.required, Validators.maxLength(4), Validators.minLength(4), Validators.pattern('^(19|20)[0-9]{2}')]]
     });
+    this.numberCar()
+
     this.getFormControls().push(newCar);
   }
 
-  public getFormControls(): FormArray {
+  public getFormControls()
+    :
+    FormArray {
     return <FormArray>this.form.controls['car'];
+
   }
 
   public submit() {
+    this.iCarsOwnersService.getOwners()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => console.log(res)
+      )
     if (this.personId) {
       this.iCarsOwnersService.putOwner({...this.form.value, id: this.personId})
         .pipe(takeUntil(this.unsubscribe$))
@@ -101,9 +134,13 @@ export class ClientCardComponent implements OnInit, OnDestroy {
     this.iCarsOwnersService.postOwner(this.form.value)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe();
+    this.initForm();
   }
 
-  public removeCar(i: any) {
+  public removeCar(i
+              :
+              any
+  ) {
     (this.form.controls['car'] as FormArray).removeAt(i);
   }
 }
