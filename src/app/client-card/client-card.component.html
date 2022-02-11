@@ -27,9 +27,10 @@
     </table>
     <div formArrayName="car">
       <div *ngFor="let itemCar of getFormControls()['controls']; let i = index" formGroupName="{{i}}">
-        <input type="text"  formControlName="number" maxlength="8" required pattern="[A-ZА-Я-][A-ZА-Я-][0-9-][0-9-][0-9-][0-9-][A-ZА-Я-][A-ZА-Я-]">
-        <input type="text"  formControlName="brand" required pattern="[A-Za-zА-Яа-я]*">
-        <input type="text"  formControlName="model" required pattern="[A-Za-zА-Яа-я0-9]*">
+        <input type="text" formControlName="number" maxlength="8" required
+               pattern="[A-ZА-Я-][A-ZА-Я-][0-9-][0-9-][0-9-][0-9-][A-ZА-Я-][A-ZА-Я-]">
+        <input type="text" formControlName="brand" required pattern="[A-Za-zА-Яа-я]*">
+        <input type="text" formControlName="model" required pattern="[A-Za-zА-Яа-я0-9]*">
         <input type="text" maxlength="4" minlength="4" formControlName="year" required pattern="^(19|20)[0-9]{2}">
         <button class="del btn btn-danger"
                 (click)="removeCar(i)"
@@ -41,13 +42,13 @@
   </form>
   <div class="block-buttons">
     <button type="button" class="added btn btn-primary" (click)="addCar()">
-      <img src="../../assets/images/btn-add-car.svg" alt="add car">Добавить автомобиль
+      <img src="../../assets/images/btn-add-car.svg" alt="add car"> Добавить автомобиль
     </button>
     <button type="submit" class="save btn btn-primary" (click)="submit()" [disabled]="!form.valid||form.untouched">
-      <img src="../../assets/images/btn-submit.svg" alt="submit">Сохранить
+      <img src="../../assets/images/btn-submit.svg" alt="submit"> Сохранить
     </button>
     <button type="button" class="back btn btn-secondary" [routerLink]="['/']">
-      <img src="../../assets/images/btn-back.svg" alt="back">Назад
+      <img src="../../assets/images/btn-back.svg" alt="back"> Назад
     </button>
   </div>
 </div>

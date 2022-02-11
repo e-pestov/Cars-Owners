@@ -25,8 +25,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .getOwners()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => this.persons = res);
-    console.log(this.persons);
-    this.numberCar();
   }
 
   ngOnDestroy() {
@@ -48,10 +46,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   private numberCar() {
     this.iCarsOwnersService.getOwners()
-      .subscribe((res: IPerson[])=>{
-        this.persons = this.persons.filter(item => item.car);
-
+      .subscribe((res: IPerson[])=> {
+        console.log(this.persons);
+        let cars = this.persons.flatMap(item => item.car);
+        console.log(cars);
+        let carNumber = cars.map(item => item.number);
+        carNumber.forEach(itemCar => {})
       });
-    console.log(this.persons);
   }
+
 }

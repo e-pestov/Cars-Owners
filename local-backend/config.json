@@ -54,16 +54,16 @@
       "patronymic": "Игнатьевич",
       "car": [
         {
-          "number": "РП2349-Ш",
+          "number": "SG1232TR",
           "brand": "Москвич",
           "model": "412",
           "year": "2009"
         },
         {
-          "number": "WE2-34-T",
-          "brand": "Muvel",
-          "model": "Cfd",
-          "year": "1930"
+          "number": "AX2121AY",
+          "brand": "sdfgb",
+          "model": "sfgb",
+          "year": "2015"
         }
       ],
       "id": 4
