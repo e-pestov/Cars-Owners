@@ -41,7 +41,7 @@
     </div>
   </form>
   <div class="block-buttons">
-    <button type="button" class="added btn btn-primary" (click)="addCar()">
+    <button type="button" class="added btn btn-primary" (click)="addCar()" [disabled]="!form.controls['car'].valid">
       <img src="../../assets/images/btn-add-car.svg" alt="add car"> Добавить автомобиль
     </button>
     <button type="submit" class="save btn btn-primary" (click)="submit()" [disabled]="!form.valid||form.untouched">
