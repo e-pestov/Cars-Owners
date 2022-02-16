@@ -85,6 +85,17 @@ export class ClientCardComponent implements OnInit, OnDestroy {
     };
   }
 
+  private numberCar() {
+    this.iCarsOwnersService.getOwners()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => {
+        this.users = res;
+        this.carNumber = this.users
+          .flatMap((item) => item.car)
+          .map((item) => item.number);
+      });
+  }
+
   private setCar(){
     this.person?.car.forEach(item => {
       const car = this.fb.group({
@@ -95,16 +106,6 @@ export class ClientCardComponent implements OnInit, OnDestroy {
       })
       this.getFormControls().push(car)
     })
-  }
-  public numberCar() {
-    this.iCarsOwnersService.getOwners()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res) => {
-        this.users = res;
-        this.carNumber = this.users
-          .flatMap((item) => item.car)
-          .map((item) => item.number);
-      });
   }
 
   public addCar() {
