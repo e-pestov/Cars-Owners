@@ -1,35 +1,14 @@
-
-.wrap{
-  padding: 50px 150px;
-
-}
-h2{
+h2 {
   margin: 30px 280px;
+}
 
-}
-.user{
-  display: flex;
-  flex-direction: column;
-}
-.itemUser{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 270px;
-  margin: 5px 0;
-}
-.item-name{
-  margin-left: 10px;
-}
-.item-name-small{
-  margin-left: 58px;
-}
-label{
+label {
   margin: 5px 0;
   padding-bottom: 12px;
   font-size: 20px;
 }
-input{
+
+input {
   outline: none;
   border-radius: 4px;
   margin-right: 10px;
@@ -41,43 +20,79 @@ input{
   width: 186px;
   border: 1px solid #dee2e6;
 }
-.del{
+
+table {
+  width: 725px;
+  margin: 0;
+}
+
+table th {
+  padding: 12px 0;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.wrap {
+  padding: 50px 150px;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 270px;
+  margin: 5px 0;
+}
+
+.item-name {
+  margin-left: 10px;
+}
+
+.item-name-small {
+  margin-left: 58px;
+}
+
+.del {
   width: 40px;
   height: 40px;
   padding: 0;
   margin-bottom: 12px;
   cursor: pointer;
 }
-.added{
+
+.added {
   width: 220px;
   margin-bottom: 10px;
 }
-.add-svg{
+
+.add-svg {
   margin-bottom: 3px;
 }
-.save{
+
+.save {
   margin-right: 10px;
 }
-.feather{
+
+.feather {
   margin-bottom: 5px;
 }
-.back{
+
+.back {
   width: 90px;
 }
-.bi{
+
+.bi {
   margin-bottom: 2px;
 }
-table{
-  width: 725px;
-  margin: 0;
-}
-table th{
-  padding: 12px 0;
-}
-.block-buttons{
+
+.block-buttons {
   width: 230px;
   margin-top: 20px;
-}
-input.ng-invalid.ng-touched{
-  border: 1px solid red;
 }

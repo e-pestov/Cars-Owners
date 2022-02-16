@@ -24,7 +24,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr [class.mark-item]="selectId === item.id" *ngFor="let item of persons" [id]="item.id"
+    <tr [class.mark-item]="selectId === item.id" *ngFor="let item of users" [id]="item.id"
         (click)="selectItem(item.id)">
       <td>{{item.surName}}</td>
       <td>{{item.firstName}}</td>

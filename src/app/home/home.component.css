@@ -1,16 +1,6 @@
-
-
-.wrapper{
-  padding: 50px 200px;
-}
 h1 {
   padding: 50px 0;
   text-align: center;
-
-}
-
-.block-buttons {
-  height: 50px;
 }
 
 button {
@@ -20,9 +10,11 @@ button {
 button:nth-child(2) {
   margin-left: 40px;
 }
+
 img{
   margin-bottom: 3px;
 }
+
 table {
   margin: 40px auto;
   font-size: 18px;
@@ -30,6 +22,14 @@ table {
 
 td {
   cursor: pointer;
+}
+
+.wrapper{
+  padding: 50px 200px;
+}
+
+.block-buttons {
+  height: 50px;
 }
 
 .mark-item {

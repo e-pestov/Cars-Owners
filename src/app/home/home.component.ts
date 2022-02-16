@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IPerson} from "../../interfaces/IPerson";
+import {IPerson} from "../interfaces/IPerson";
 import {ICarOwnersService} from "../services/icar-owners.service";
 import {Router} from "@angular/router";
 import {Subject, takeUntil} from "rxjs";
@@ -11,7 +11,7 @@ import {Subject, takeUntil} from "rxjs";
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  public persons: IPerson[] = [];
+  public users: IPerson[] = [];
   public person: IPerson[] = [];
   public selectId: any;
 
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.iCarsOwnersService
       .getOwners()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res) => this.persons = res);
+      .subscribe((res) => this.users = res);
   }
 
   ngOnDestroy() {
@@ -32,27 +32,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  selectItem(id: number) {
+  public selectItem(id: number) {
     this.selectId = id;
   }
 
-  viewUser(id: number) {
+  public viewUser(id: number) {
     this.router.navigate([`/view/${id}`]);
   }
 
-  delete(id: number) {
+  public delete(id: number) {
     this.iCarsOwnersService.deleteOwner(id)
-      .subscribe((res) => this.persons = this.persons.filter(item => item.id !== id));
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => this.users = this.users.filter(item => item.id !== id));
   }
-  private numberCar() {
-    this.iCarsOwnersService.getOwners()
-      .subscribe((res: IPerson[])=> {
-        console.log(this.persons);
-        let cars = this.persons.flatMap(item => item.car);
-        console.log(cars);
-        let carNumber = cars.map(item => item.number);
-        carNumber.forEach(itemCar => {})
-      });
-  }
-
 }
