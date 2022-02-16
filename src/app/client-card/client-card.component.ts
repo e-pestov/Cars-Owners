@@ -24,7 +24,6 @@ export class ClientCardComponent implements OnInit, OnDestroy {
   public users: IPerson[] = [];
   public personId: number | undefined;
   public carNumber: string[] = [];
-  public currentCar: string[] = [];
   public validNum: string = '[A-ZА-Я-]{2}[0-9-]{4}[A-ZА-Я-]{2}';
   public validBrand: string = '[A-Za-zА-Яа-я]*';
   public validModel: string = '[A-Za-zА-Яа-я0-9]*';
@@ -70,21 +69,7 @@ export class ClientCardComponent implements OnInit, OnDestroy {
             'firstName': this.person.firstName,
             'patronymic': this.person.patronymic,
           })
-          if (!this.person?.car) {
-            this.addCar()
-            return;
-          }
-
-          this.currentCar = this.person.car.map(item => item.number);
-          this.person.car.forEach(item => {
-            const car = this.fb.group({
-              "number": [item.number, [Validators.required, Validators.pattern(this.validNum), Validators.maxLength(8)]],
-              "brand": [item.brand, [Validators.required, Validators.pattern(this.validBrand)]],
-              "model": [item.model, [Validators.required, Validators.pattern(this.validModel)]],
-              "year": [item.year, [Validators.required, Validators.maxLength(4), Validators.minLength(4), Validators.pattern(this.validYear)]]
-            })
-            this.getFormControls().push(car)
-          })
+          !this.person?.car ? this.addCar() : this.setCar();
         })
       return;
     }
@@ -100,6 +85,17 @@ export class ClientCardComponent implements OnInit, OnDestroy {
     };
   }
 
+  private setCar(){
+    this.person?.car.forEach(item => {
+      const car = this.fb.group({
+        "number": [item.number, [Validators.required, Validators.pattern(this.validNum), Validators.maxLength(8)]],
+        "brand": [item.brand, [Validators.required, Validators.pattern(this.validBrand)]],
+        "model": [item.model, [Validators.required, Validators.pattern(this.validModel)]],
+        "year": [item.year, [Validators.required, Validators.maxLength(4), Validators.minLength(4), Validators.pattern(this.validYear)]]
+      })
+      this.getFormControls().push(car)
+    })
+  }
   public numberCar() {
     this.iCarsOwnersService.getOwners()
       .pipe(takeUntil(this.unsubscribe$))
